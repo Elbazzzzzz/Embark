@@ -670,7 +670,6 @@ ul, ol {
 
 .hero__lead {
   font-size: 1.125rem;
-  max-width: 38rem;
 }
 
 .hero__image {
@@ -888,6 +887,7 @@ ul, ol {
 
 /* Testimonials */
 .testimonial {
+  margin: 0;
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: var(--grid-gap);
@@ -1248,8 +1248,6 @@ ul, ol {
 }
 
 .page-header__lead {
-  max-width: 40rem;
-  margin-inline: auto;
   font-size: 1.125rem;
 }
 
