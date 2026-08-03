@@ -69,27 +69,4 @@
     });
   });
 
-  document.querySelectorAll('.gallery-strip').forEach(function (strip) {
-    var track = strip.querySelector('.gallery-strip__track');
-    var prev = strip.querySelector('.gallery-strip__btn--prev');
-    var next = strip.querySelector('.gallery-strip__btn--next');
-    if (!track) return;
-
-    function scrollByPage(direction) {
-      var amount = Math.max(track.clientWidth * 0.85, 200);
-      track.scrollBy({ left: direction * amount, behavior: 'smooth' });
-    }
-
-    if (prev) {
-      prev.addEventListener('click', function () {
-        scrollByPage(-1);
-      });
-    }
-    if (next) {
-      next.addEventListener('click', function () {
-        scrollByPage(1);
-      });
-    }
-  });
-
 })();

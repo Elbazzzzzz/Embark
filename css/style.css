@@ -1020,9 +1020,30 @@ ul, ol {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-block: var(--space-half);
+  padding-bottom: var(--space-1);
   /* edge-to-edge feel while page still has body padding elsewhere */
   margin-inline: calc(-1 * var(--gutter));
   padding-inline: var(--gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--terracotta-deep) var(--cream);
+}
+
+.gallery-strip__track::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.gallery-strip__track::-webkit-scrollbar-track {
+  background: var(--cream);
+  border-radius: var(--radius);
+}
+
+.gallery-strip__track::-webkit-scrollbar-thumb {
+  background: var(--terracotta-deep);
+  border-radius: var(--radius);
+}
+
+.gallery-strip__track::-webkit-scrollbar-thumb:hover {
+  background: var(--brick);
 }
 
 .gallery-strip__item {
@@ -1039,18 +1060,6 @@ ul, ol {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-}
-
-.gallery-strip__controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-1);
-  margin-top: var(--space-2);
-}
-
-.gallery-strip__btn {
-  min-width: 2.75rem;
-  padding-inline: var(--space-1);
 }
 
 /* Full-width image band */
