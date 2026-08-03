@@ -887,6 +887,7 @@ ul, ol {
 
 /* Testimonials */
 .testimonial {
+  margin: 0;
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: var(--grid-gap);
