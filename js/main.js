@@ -69,4 +69,71 @@
     });
   });
 
+  // Cookie consent — stores preference for future analytics (none loaded yet)
+  var COOKIE_CONSENT_KEY = 'embark_cookie_consent';
+
+  function getCookieConsent() {
+    try {
+      return localStorage.getItem(COOKIE_CONSENT_KEY);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setCookieConsent(value) {
+    try {
+      localStorage.setItem(COOKIE_CONSENT_KEY, value);
+    } catch (e) {
+      /* ignore quota / private mode failures */
+    }
+  }
+
+  function hasAnalyticsConsent() {
+    return getCookieConsent() === 'accepted';
+  }
+
+  function initAnalyticsIfAllowed() {
+    if (!hasAnalyticsConsent()) return;
+    // TODO: load analytics script here when Measurement ID is available
+  }
+
+  function hideCookieBanner(banner) {
+    if (banner && banner.parentNode) {
+      banner.parentNode.removeChild(banner);
+    }
+  }
+
+  function showCookieBanner() {
+    if (getCookieConsent()) {
+      initAnalyticsIfAllowed();
+      return;
+    }
+
+    var banner = document.createElement('div');
+    banner.className = 'cookie-banner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Cookie consent');
+    banner.innerHTML =
+      '<div class="cookie-banner__inner">' +
+      '<p class="cookie-banner__text">I use essential cookies for this site to work. With your consent, I may also use analytics cookies to understand how the site is used. ' +
+      '<a href="/cookie-policy.html">Cookie Policy</a>.</p>' +
+      '<div class="cookie-banner__actions">' +
+      '<button type="button" class="btn btn--primary" data-cookie-consent="accepted">Accept</button>' +
+      '<button type="button" class="btn btn--secondary" data-cookie-consent="rejected">Reject</button>' +
+      '</div></div>';
+
+    document.body.appendChild(banner);
+
+    banner.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-cookie-consent]');
+      if (!button) return;
+      var choice = button.getAttribute('data-cookie-consent');
+      setCookieConsent(choice);
+      hideCookieBanner(banner);
+      if (choice === 'accepted') initAnalyticsIfAllowed();
+    });
+  }
+
+  showCookieBanner();
+
 })();
