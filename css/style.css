@@ -610,6 +610,11 @@ ul, ol {
     gap: 0;
   }
 
+  .main-nav__right .nav-dropdown__menu {
+    left: auto;
+    right: 0;
+  }
+
   .main-nav .nav-dropdown__menu li {
     width: 100%;
   }
