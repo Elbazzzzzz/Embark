@@ -349,6 +349,7 @@ ul, ol {
   justify-content: space-between;
   min-height: var(--header-height);
   gap: var(--space-1);
+  position: relative;
 }
 
 .logo {
@@ -364,7 +365,7 @@ ul, ol {
 
 .logo__image {
   display: block;
-  height: 2.125rem;
+  height: clamp(1.875rem, 7.5vw, 2.25rem);
   width: auto;
   max-width: 100%;
 }
@@ -375,24 +376,40 @@ ul, ol {
 }
 
 @media (min-width: 480px) {
-  .logo__image { height: 2.5rem; }
+  .logo__image { height: clamp(2.25rem, 5vw, 2.5rem); }
 }
 
 @media (min-width: 768px) {
-  .logo__image { height: 2.75rem; }
+  .logo__image { height: 2.625rem; }
 }
 
 @media (min-width: 900px) {
-  .logo {
-    flex-shrink: 0;
-    max-width: none;
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
   }
 
-  .logo__image { height: 3rem; }
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-shrink: 0;
+    max-width: none;
+    z-index: 2;
+  }
+
+  /* ~2.875rem tall → ~14.6rem wide at 5.08:1 — keep nav clear */
+  .logo__image { height: 2.875rem; }
 }
 
 @media (min-width: 1100px) {
   .logo__image { height: 3.25rem; }
+}
+
+@media (min-width: 1280px) {
+  .logo__image { height: 3.5rem; }
 }
 
 .nav-toggle {
@@ -453,6 +470,13 @@ ul, ol {
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow-wrap: normal;
+}
+
+.main-nav__right {
+  margin-top: var(--space-half);
+  padding-top: var(--space-half);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .main-nav a {
@@ -467,8 +491,26 @@ ul, ol {
 .main-nav a:hover,
 .main-nav a:focus-visible,
 .main-nav a[aria-current="page"] {
-  background: var(--cream);
+  background: rgba(30, 29, 27, 0.06);
   color: var(--link-hover);
+}
+
+.main-nav a.header-cta,
+.main-nav a.header-cta:hover,
+.main-nav a.header-cta:focus-visible {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--space-half);
+  background: var(--terracotta-deep);
+  color: var(--white);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-lg);
+}
+
+.main-nav a.header-cta:hover,
+.main-nav a.header-cta:focus-visible {
+  background: var(--brick);
 }
 
 .nav-dropdown {
@@ -581,22 +623,81 @@ ul, ol {
   .nav-toggle { display: none; }
 
   .main-nav {
-    display: block;
+    display: flex;
     position: static;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
     background: none;
     border: none;
     padding: 0;
     box-shadow: none;
   }
 
-  .main-nav ul {
+  .main-nav__left,
+  .main-nav__right {
     display: flex;
-    gap: var(--space-half);
-    flex-wrap: wrap;
+    gap: 0.15rem;
+    flex-wrap: nowrap;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    border: none;
+    min-width: 0;
   }
 
-  .main-nav a { padding: var(--space-half) var(--space-1); font-size: 0.9375rem; }
+  .main-nav__left {
+    justify-content: flex-start;
+    padding-right: 9rem; /* clear centered logo */
+  }
+
+  .main-nav__right {
+    justify-content: flex-end;
+    padding-left: 9rem; /* clear centered logo */
+    gap: var(--space-half);
+  }
+
+  .main-nav a,
+  .main-nav .nav-dropdown__toggle {
+    padding: var(--space-half) 0.65rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .main-nav a.header-cta,
+  .main-nav a.header-cta:hover,
+  .main-nav a.header-cta:focus-visible {
+    width: auto;
+    margin-top: 0;
+    padding: var(--space-half) var(--space-1);
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .main-nav__left {
+    gap: var(--space-half);
+    padding-right: 11rem;
+  }
+
+  .main-nav__right {
+    padding-left: 11rem;
+  }
+
+  .main-nav a,
+  .main-nav .nav-dropdown__toggle {
+    padding: var(--space-half) var(--space-1);
+    font-size: 0.9375rem;
+  }
+
+  .main-nav a.header-cta,
+  .main-nav a.header-cta:hover,
+  .main-nav a.header-cta:focus-visible {
+    padding: var(--space-half) var(--space-2);
+    font-size: 0.9375rem;
+  }
 }
 
 /* Buttons */
@@ -662,13 +763,9 @@ ul, ol {
   justify-content: center;
 }
 
-/* Must follow .btn - overrides inline-flex from shared button styles */
+/* Header CTA lives inside the nav; mobile styles are under .main-nav */
 .header-cta {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .header-cta { display: inline-flex; }
+  white-space: nowrap;
 }
 
 @media (max-width: 479px) {
